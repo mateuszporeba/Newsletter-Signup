@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
     
     callPing();
     //console.log(process.env);
-    console.log(process.env.MC_SERVER);
+    //console.log(process.env.MC_SERVER);
     //console.log('token ', process.env)
   });
 
@@ -48,9 +48,9 @@ app.get('/', (req, res) => {
     console.log(req.body);
 
     mailchimp.setConfig({
-      apiKey: "7c92c29df06d7bbb6e445aaea805e2f2-us9",
-      server: "us9",
-      listUniqueId: "7b9e90b60a"
+      apiKey: process.env.MC_API_KEY,
+      server: process.env.MC_SERVER,
+      listUniqueId: process.env.MC_LIST_UNIQUE_ID
     });
 //////////////////////
     async function callPing() {
@@ -244,9 +244,6 @@ app.get('/', (req, res) => {
 // $('#btn').click(function(){
 //     $.post(__dirname+'/success.html');
 // });
-
-//api key: 7c92c29df06d7bbb6e445aaea805e2f2-us9
-//list id: 7b9e90b60a
 
 
 
