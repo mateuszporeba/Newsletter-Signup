@@ -245,9 +245,6 @@ app.get('/', (req, res) => {
 //     $.post(__dirname+'/success.html');
 // });
 
-//api key: 7c92c29df06d7bbb6e445aaea805e2f2-us9
-//list id: 7b9e90b60a
-
 
 
 
