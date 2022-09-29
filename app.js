@@ -35,6 +35,7 @@ app.get('/', (req, res) => {
     //console.log(process.env.MC_SERVER);
     //console.log('token ', process.env)
   });
+  
 
   app.post('/', (req, res) => {
     const firstName = req.body.fName;
