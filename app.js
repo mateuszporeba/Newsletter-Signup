@@ -19,6 +19,10 @@ app.listen(3000, function(){
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/signup.html")
+    
+    console.log(process.env.MC_API_KEY)
+    console.log(process.env.MC_SERVER)
+    console.log(process.env.MC_LIST_UNIQUE_ID)
   });
 
   app.post('/', (req, res) => {
