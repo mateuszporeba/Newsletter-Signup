@@ -20,12 +20,12 @@ app.listen(3000, function(){
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/signup.html")
 
-    console.log(process.env.MC_API_KEY)
-    console.log(process.env.MC_SERVER)
-    console.log(process.env.MC_LIST_UNIQUE_ID)
+    // console.log(process.env.MC_API_KEY)
+    // console.log(process.env.MC_SERVER)
+    // console.log(process.env.MC_LIST_UNIQUE_ID)
   });
 
-  
+
   app.post('/', (req, res) => {
     const firstName = req.body.fName;
     const lastName = req.body.lName;
@@ -69,43 +69,52 @@ async function run() {
     }.`
   );
 
-  //const request = https.request(url, mailchimp.config)
-  // console.log(response.status);
-  // if (response.status < 300 || (response.status === 400 && response.body.title === "Member Exists")) {
-  //   res.send('Signed Up!');
-  // } else {
-  //   res.send('Sign Up Failed :(');
-  // }
+  if(response.status === "subscribed"){
+    res.sendFile(__dirname + "/success.html")
+    //res.send('Signed Up!');
+  }else{
+    res.sendFile(__dirname + "/failure.html")
+    //res.send('Sign Up Failed :(');
+  }
+
 }
 
 run();
+
+});
 // console.log(response.status);
 // console.log(response.statusCode);
 
-const options = {
-   method: 'POST'
-  ,apiKey: process.env.MC_API_KEY
-}
+// const options = {
+//    method: 'POST'
+//   ,apiKey: process.env.MC_API_KEY
+//   }
 
-const request = https.request("https://"+mailchimp.MC_SERVER+".api.mailchimp.com/3.0/lists"+mailchimp.MC_LIST_UNIQUE_ID
-, options, function(response){
+//   const request = https.request("https://"+process.env.MC_SERVER+".api.mailchimp.com/3.0/lists"+process.env.MC_LIST_UNIQUE_ID+"/members/"
+//   , options
+//   , function(response){
 
-  if(response.statusCode === 200){
-    res.send('Signed Up!');
-  }else{
-    res.send('Sign Up Failed :(');
-  }
+//     console.log(response.status);
+//     cconsole.log(response.statusCode);
 
-  response.on("data", function(data){
-    console.log(JSON.parse(data));
-  });
-});
+//     if(response.statusCode === 200){
+//       //res.sendFile(__dirname + "/success.html")
+//       res.send('Signed Up!');
+//     }else{
+//       //res.sendFile(__dirname + "/failure.html")
+//       res.send('Sign Up Failed :(');
+//     }
 
-request.write(jsonData);
-request.end();
+//     response.on("data", function(data){
+//       console.log(JSON.parse(data));
+//     });
+//   });
+
+//request.write(jsonData);
+//request.end();
 
 
-});
+
 
     // mailchimp.setConfig({
     //   apiKey: process.env.MC_API_KEY,
