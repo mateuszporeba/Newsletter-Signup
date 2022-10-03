@@ -65,17 +65,40 @@ async function run() {
   );
 
   //const request = https.request(url, mailchimp.config)
-  console.log(response.status);
-  if (response.status < 300 || (response.status === 400 && response.body.title === "Member Exists")) {
-    res.send('Signed Up!');
-  } else {
-    res.send('Sign Up Failed :(');
-  }
+  // console.log(response.status);
+  // if (response.status < 300 || (response.status === 400 && response.body.title === "Member Exists")) {
+  //   res.send('Signed Up!');
+  // } else {
+  //   res.send('Sign Up Failed :(');
+  // }
 }
 
 run();
-console.log(response.status);
-console.log(response.statusCode);
+// console.log(response.status);
+// console.log(response.statusCode);
+
+const options = {
+   method: 'POST'
+  ,apiKey: process.env.MC_API_KEY
+}
+
+const request = https.request("https://"+mailchimp.MC_SERVER+".api.mailchimp.com/3.0/lists"+mailchimp.MC_LIST_UNIQUE_ID
+, options, function(response){
+
+  if(response.statusCode === 200){
+    res.send('Signed Up!');
+  }else{
+    res.send('Sign Up Failed :(');
+  }
+
+  response.on("data", function(data){
+    console.log(JSON.parse(data));
+  });
+});
+
+request.write(jsonData);
+request.end();
+
 
 });
 
