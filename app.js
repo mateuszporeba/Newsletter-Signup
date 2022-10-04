@@ -5,17 +5,19 @@ const request = require("request");
 const https = require("https");
 const path = require("path");
 const mailchimp = require('@mailchimp/mailchimp_marketing');
-//const mailchimp = require('mailchimp-marketing');
 const { response } = require('express');
 const app = express();
+
 // Static folder
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(bodyParser.urlencoded({extended: true}));
 
+
 app.listen(3000, function(){
     console.log("Server is running on port 3000");
 });
+
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/signup.html")
@@ -41,10 +43,8 @@ app.get('/', (req, res) => {
     ({
        apiKey: process.env.MC_API_KEY
       ,server: process.env.MC_SERVER
-      ,listUniqueId: process.env.MC_LIST_UNIQUE_ID
     });
     
-
   const listId = process.env.MC_LIST_UNIQUE_ID;
 
   const subscribingUser = {
@@ -54,34 +54,89 @@ app.get('/', (req, res) => {
 };
 
 async function run() {
-  const response = await mailchimp.lists.addListMember(listId, {
-     email_address: subscribingUser.email
-    ,status: "subscribed"
-    ,merge_fields: {
-       FNAME: subscribingUser.firstName
-      ,LNAME: subscribingUser.lastName
-    }
-  });
+  try{
+    const response = await mailchimp.lists.addListMember(listId, {
+      email_address: subscribingUser.email
+      ,status: "subscribed"
+      ,merge_fields: {
+        FNAME: subscribingUser.firstName
+        ,LNAME: subscribingUser.lastName
+      }
+    });
 
-  console.log(
-    `Successfully added contact as an audience member. The contact's id is ${
-      response.id
-    }.`
-  );
-
-  if(response.status === "subscribed"){
+    console.log(
+      `Successfully added contact as an audience member. The contact's id is ${
+        response.id
+      }.`  
+    );
     res.sendFile(__dirname + "/success.html")
-    //res.send('Signed Up!');
-  }else{
-    res.sendFile(__dirname + "/failure.html")
-    //res.send('Sign Up Failed :(');
   }
+  catch{
+    res.sendFile(__dirname + "/failure.html")
 
+    }  
 }
 
-run();
-
+run()
 });
+
+
+app.post("/failure", function(req,res){
+  res.redirect("/");
+});
+
+
+
+// async function run() {
+//   const response = await mailchimp.lists.addListMember(listId, {
+//      email_address: subscribingUser.email
+//     ,status: "subscribed"
+//     ,merge_fields: {
+//        FNAME: subscribingUser.firstName
+//       ,LNAME: subscribingUser.lastName
+//     }
+//   });
+
+//   console.log(
+//     `Successfully added contact as an audience member. The contact's id is ${
+//       response.id
+//     }.`  
+//   );
+
+//   console.log("response.statusCode: "+response.statusCode);
+//   console.log("response.status "+response.status);
+
+//   // if(response.status === "subscribed"){
+//   //   res.sendFile(__dirname + "/success.html")
+//   //   //res.send('Signed Up!');
+//   // }else{
+//   //   res.sendFile(__dirname + "/failure.html")
+//   //   //res.send('Sign Up Failed :(');
+//   // }  
+
+// }
+// // console.log("response.statusCode: "+response.statusCode);
+// // console.log("response.status "+response.status);
+
+// run()
+// try{
+//   run()
+// }
+// run().catch(res.sendFile(__dirname + "/failure.html"));
+// try {
+//   run()
+// } catch (e) {
+//   console.error(e);
+// } finally {
+//   console.log('We do cleanup here');
+// }
+
+
+//run();
+
+
+
+
 // console.log(response.status);
 // console.log(response.statusCode);
 

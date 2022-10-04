@@ -14,6 +14,7 @@
     "dotenv": "^16.0.2",
     "expres": "^0.0.5",
     "express": "^4.18.1",
+    "js-beautify": "^1.14.6",
     "mailchimp-marketing": "^5.0.0",
     "md5": "^2.3.0",
     "request": "^2.88.2",
