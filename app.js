@@ -86,7 +86,6 @@ app.post("/failure", function(req,res){
 });
 
 
-
 // async function run() {
 //   const response = await mailchimp.lists.addListMember(listId, {
 //      email_address: subscribingUser.email
